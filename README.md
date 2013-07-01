@@ -1,47 +1,44 @@
-[![Build Status](https://secure.travis-ci.org/hyperturtle/Stache.png)](http://travis-ci.org/hyperturtle/Stache)
+# stache
 
-# Stache
-
-Trimmed mustache logic-less templates
+Compact implementation of the Mustache logic-less templating language.
+This is a fork of the Stache project. 
+See:
+    https://github.com/hyperturtle/Stache
+    https://pypi.python.org/pypi/Stache/0.0.9
+    
+The biggest changes are:
+- The render_js functionality has been removed making stache an even lighter 
+    weight implementation of Mustache
+- Formatting line feeds after Mustache section tags were not being stripped
+- Convenience functions
 
 Implements everything from [Mustache.5](http://mustache.github.com/mustache.5.html)
-**except for lambdas** in < 200 lines of code. Plus four new things. Implied closing tags
-`{{/}}`, Self referencer `{{.}}`, Existence check `{{?exists}}{{/exists}}` and data pusher 
-`{{< blah}}{{/blah}}`, `{{:default}}`
+**except for lambdas** in one small python file. 
 
-# Also, the ability to compile to javascript code!
-
-## render_js(template_string)
-
-Compiles an inline script to javascript code
-
-## Stache().render_js_template(template_name)
-
-Compiles all the templates and sets the entry point to the template name
-
-## render_all_js()
-
+Plus five new things:
+- Implied closing tags
+   `{{/}}`
+- Self referencer 
+    `{{.}}`, 
+- Existence check 
+    `{{?exists}}{{/exists}}` 
+- Data pusher 
+    `{{< blah}}{{/blah}}`
+- Default
+    `{{:default}}`
+    
 Compiles all the templates and returns a template object.
 
 ```python
-stachio = Stache()
-stachio.add_template('template_name', templatefile.read())
-write('var t = ' + stachio.render_all_js() ';')
+stacher = Stache()
+stacher.add_template('template_name', templatefile.read())
+write('var t = ' + stacher.render_all_js() ';')
 ```
+# Overview
 
-```javascript
-var content = t['template_name']([{myparams:3}])
-$("#container").html(content)
-```
-
-# Why?
-
-Because the current [Pystache](https://github.com/defunkt/pystache) implementation
-has holes. And because I wanted to learn about python generators. As a result
-my codebase is considerabley smaller and easier to grok too(at least for me). It consists
-of two main methods, `_tokenize`, and `_parse`, both python generators. `_tokenize` creates
-tokens and `_parse` consumes and renders them. Also benchmarking the two with my tests,
-mine was slightly faster, around 2x to 3x.
+Fast lightweight implementation.
+It consists of two main methods, `_tokenize`, and `_parse`, both python generators. 
+`_tokenize` creates tokens and `_parse` consumes and renders them. 
 
 # Existing Stuff
 
@@ -273,11 +270,6 @@ are yield'ed as it is generated.
     Hello
     Stache!
 
+
 # Timeline:
 
-I'm wary of lambdas, because I want the templates to be language agnostic.
-The main reason I liked Mustache in the first place is because of possibility of
-template reuse.
-
-Some future ideas I have is rendering to javascript templates to be used on browser
-frontend, bypassing the need for a client side script to compile it into javascript

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{base}}/lib/test.css" >
+    {{#styles}}
+    <link rel="stylesheet" href="{{name}}" >
+    {{/styles}}
+  </head>
+  <body>
+    <div>
+      User: Age:
+      {{#users}}  {{first}}  {{age}}{{/users}}
+    </div>
+    <div>
+      User: Age:
+      {{#users}} 
+      <p>{{first}} {{age}}</p>
+      {{/users}}
+    </div>
+    <ul>
+      {{#list}}
+      <li>{{.}}</li>
+      {{/list}}<p>fun</p>
+    </ul>
+    <ul>
+      {{#list}}
+      <li>{{.}}</li>
+      {{/list}}
+      {{#list}}
+      <li>{{.}}</li>
+      {{/list}}{{#list}}<li>{{.}}</li>{{/list}}
+    </ul>
+    <ul>
+      {{#list}}<li>{{.}}</li>{{/list}}
+    </ul>
+    <script src="{{base}}/lib/test.js"></script>
+    {{#scripts}}
+    <script src="{{name}}"></script>
+    {{/scripts}}
+  </body>
+</html>

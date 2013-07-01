@@ -1,0 +1,26 @@
+{ "scripts":
+    [
+      {"name": "A"},
+      {"name": "B"},
+      {"name": "C"}
+    ],
+  "styles":
+    [
+      {"name": "X"},
+      {"name": "Y"},
+      {"name": "Z"}
+    ],
+  "base": "/demo",
+  "list":
+    [
+      "Red",
+      "Blue",
+      "Green"
+    ],
+  "users":
+    [
+      {"first": "Peter", "age": 20},
+      {"first": "Mary", "age": 19},
+      {"first": "John", "age": 22}
+    ]
+}

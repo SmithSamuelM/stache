@@ -1,5 +1,5 @@
 try:
-    from __init__ import Stache, render, render_js
+    from stache import Stache, render, render_js
 except ImportError:
     from . import Stache, render, render_js
 
