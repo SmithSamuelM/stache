@@ -10,7 +10,7 @@
        https://pypi.python.org/pypi/Stache/0.0.9
     
 """
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __author__ = "Samuel M. Smith"
 __license__ =  "MIT"
 
@@ -327,7 +327,7 @@ if __name__ == "__main__":
         _debug = True
         
     with  open(args.template, 'r') as fpt, open(args.data, 'r') as  fpd, open(args.rendered, 'w') as fpr:
-        if _debug: print "Running stache"
+        if _debug: print "Running staching"
         
         template = fpt.read()
         if _debug: print "Template: \n%s\n" % template

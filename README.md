@@ -1,4 +1,4 @@
-# stache
+# staching
 
 Compact implementation of the Mustache logic-less templating language.
 This is a fork of the Stache project. 
@@ -7,9 +7,19 @@ See:
     https://pypi.python.org/pypi/Stache/0.0.9
     
 The biggest changes are:
+
 - The render_js functionality has been removed making stache an even lighter 
     weight implementation of Mustache
-- Formatting line feeds after Mustache section tags were not being stripped
+    
+- Formatting line feeds after Mustache section tags were not being stripped properly
+  staching now distinguishes between block and inline section tags and formats
+  appropriately
+  
+- staching.py is a single file so can be easily embedded in another project without
+  it being an external dependency
+  
+- staching.py can be run from the command line to render a template with json data
+  
 - Convenience functions
 
 Implements everything from [Mustache.5](http://mustache.github.com/mustache.5.html)
