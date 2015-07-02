@@ -238,13 +238,13 @@ Custom Footer
 
 # Install
 
-    pip install stache
+    pip install staching
 
 # Test
 
 You can run `python test.py` or if you have nosetests:
 
-    cd stache
+    cd staching
     nosetests
 
 # Benchmark
@@ -253,19 +253,19 @@ You can run `python test.py` or if you have nosetests:
 
 # Usage:
 
-    >>> from Stache import Stache
+    >>> from staching import Stache
     >>> Stache().render("Hello {{who}}!", dict(who="World"))
     Hello World
 
 or
 
-    >>> import Stache
+    >>> import staching
     >>> Stache.render("Hello {{world}}!", dict(world="Stache!"))
     Hello Stache!
 
 ## To populate partials:
 
-    >>> from Stache import Stache
+    >>> from staching import Stache
     >>> stachio = Stache()
     >>> stachio.add_template('main', 'a = {{a}};')
     >>> stachio.add_template('main1', 'b = [ {{#b}}{{.}} {{/b}}];')
