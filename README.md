@@ -53,8 +53,9 @@ with open(pathtotemplatefile, "r") as fp:
 
 ```python
 stacher = Stache()
+# setup data dict
 stacher.add_template('template_name', templatefile.read())
-write('var t = ' + stacher.render_all_js() ';')
+content = stacher.render_template('template_name', data)
 ```
 # Overview
 
