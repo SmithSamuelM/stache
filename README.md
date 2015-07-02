@@ -1,43 +1,55 @@
 # staching
 
 Compact implementation of the Mustache logic-less templating language.
-This is a fork of the Stache project. 
+This is a fork of the Stache project.
 See:
     https://github.com/hyperturtle/Stache
     https://pypi.python.org/pypi/Stache/0.0.9
-    
+
 The biggest changes are:
 
-- The render_js functionality has been removed making stache an even lighter 
+- The render_js functionality has been removed making stache an even lighter
     weight implementation of Mustache
-    
+
 - Formatting line feeds after Mustache section tags were not being stripped properly
   staching now distinguishes between block and inline section tags and formats
   appropriately
-  
+
 - staching.py is a single file so can be easily embedded in another project without
   it being an external dependency
-  
+
 - staching.py can be run from the command line to render a template with json data
-  
+
 - Convenience functions
 
 Implements everything from [Mustache.5](http://mustache.github.com/mustache.5.html)
-**except for lambdas** in one small python file. 
+**except for lambdas** in one small python file.
 
 Plus five new things:
 - Implied closing tags
    `{{/}}`
-- Self referencer 
-    `{{.}}`, 
-- Existence check 
-    `{{?exists}}{{/exists}}` 
-- Data pusher 
+- Self referencer
+    `{{.}}`,
+- Existence check
+    `{{?exists}}{{/exists}}`
+- Data pusher
     `{{< blah}}{{/blah}}`
 - Default
     `{{:default}}`
-    
-Compiles all the templates and returns a template object.
+
+# Quick Start
+
+```python
+import staching
+
+# setup the data dictionary
+
+with open(pathtotemplatefile, "r") as fp:
+    content = staching.render(fp.read(), data)
+
+```
+
+# Compiles all the templates and returns a template object.
 
 ```python
 stacher = Stache()
@@ -47,8 +59,8 @@ write('var t = ' + stacher.render_all_js() ';')
 # Overview
 
 Fast lightweight implementation.
-It consists of two main methods, `_tokenize`, and `_parse`, both python generators. 
-`_tokenize` creates tokens and `_parse` consumes and renders them. 
+It consists of two main methods, `_tokenize`, and `_parse`, both python generators.
+`_tokenize` creates tokens and `_parse` consumes and renders them.
 
 # Existing Stuff
 
@@ -174,7 +186,7 @@ Lets say you have these templates:
     {{footer}}
     </div>
 
-#### page = 
+#### page =
 
     {{<header}}
     {{name}}
@@ -201,7 +213,7 @@ footer
 You can also apply the inverted block or default block to supply default blocks
 
 #### master =
-    
+
     <div id="header">
     {{header}}
     {{^header}}Default Header{{/header}}

@@ -2,9 +2,9 @@
 
     Basic setup file to enable pip install
 
-    python setup.py register  sdist upload 
+    python setup.py register  sdist upload
 
-    
+
 """
 
 import sys
@@ -12,7 +12,7 @@ import os
 from distutils.core import setup
 
 if sys.version_info < (2,5):
-    raise NotImplementedError("Sorry, you need at least Python 2.5 to use stace.")
+    raise NotImplementedError("Sorry, you need at least Python 2.5 to use staching.")
 
 import staching
 
