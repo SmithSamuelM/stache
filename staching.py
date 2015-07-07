@@ -1,16 +1,18 @@
 """ stache module
     Compact implementation of the Mustache logic-less templating language
-    
-    
-    
+
+
+
     This is fork of the Stache project. With much thanks to the author of the
-    the original Stache, most of the code is from the orginal Stache project. 
+    the original Stache, most of the code is from the orginal Stache project.
     See:
        https://github.com/hyperturtle/Stache
        https://pypi.python.org/pypi/Stache/0.0.9
-    
+
 """
-__version__ = "0.0.2"
+from __future__ import absolute_import, division, print_function
+
+__version__ = "0.0.3"
 __author__ = "Samuel M. Smith"
 __license__ =  "MIT"
 
@@ -20,7 +22,7 @@ from cgi import escape
 
 try:
     from sys import intern # python 3
-except ImportError: 
+except ImportError:
     pass
 
 _debug = False
@@ -94,12 +96,12 @@ class Stache(object):
         while rest and len(rest) > 0:
             pre_section    = rest.split(self.otag, 1)
             pre, rest      = pre_section if len(pre_section) == 2 else (pre_section[0], None)
-            if _debug: print "pre: \n%s\nrest: \n%s" % (pre, rest)
-            
+            if _debug: print( "pre: \n%s\nrest: \n%s" % (pre, rest))
+
             taglabel, rest = rest.split(self.ctag, 1) if rest else (None, None)
             taglabel       = taglabel.strip() if taglabel else ''
-            if _debug: print "taglabel: \n%s\nrest: \n%s" % (taglabel, rest)
-            
+            if _debug: print( "taglabel: \n%s\nrest: \n%s" % (taglabel, rest))
+
             open_tag       = _checkprefix(taglabel, '#')
             invert_tag     = _checkprefix(taglabel, '^') if not open_tag else None
             close_tag      = _checkprefix(taglabel, '/') if not invert_tag else None
@@ -111,8 +113,8 @@ class Stache(object):
             unescape_tag   = _checkprefix(taglabel, '{') if not booltern_tag else None
             if unescape_tag:
                 rest = rest[1:]
-                #if _debug: print "unescape rest: \n%s" %  rest
-            
+                #if _debug: print( "unescape rest: \n%s" %  rest)
+
             unescape_tag   = ((unescape_tag or _checkprefix(taglabel, '&'))
                               if not booltern_tag else None)
             delim_tag      = (taglabel[1:-1] if not unescape_tag and
@@ -121,7 +123,7 @@ class Stache(object):
                               else None)
             delim_tag      = delim_tag.split(' ', 1) if delim_tag else None
             delim_tag      = delim_tag if delim_tag and len(delim_tag) == 2 else None
-            
+
             if  (   open_tag or invert_tag or comment_tag or
                     partial_tag or push_tag or bool_tag or
                     booltern_tag or unescape_tag or delim_tag): # not a variable
@@ -131,58 +133,58 @@ class Stache(object):
                     if sep:
                         if not front.strip(): # only whitespace before linefeed
                             rest = back # removed whitespace and linefeed
-                            #if _debug: print "open rest strip front: \n%s" %  rest
+                            #if _debug: print( "open rest strip front: \n%s" %  rest)
                         else: #inline
                             inline = True
-                            #if _debug: print "open inline:"
+                            #if _debug: print( "open inline:")
                 if not inline and pre: #strip trailing whitespace after linefeed if present
                     front, sep, back = pre.rpartition("\n")
                     if sep:
                         if not back.strip(): # only whitespace after linefeed
                             pre = ''.join((front, sep)) # restore linefeed
-                            #if _debug: print "open pre strip back: \n%s" % pre
+                            #if _debug: print( "open pre strip back: \n%s" % pre)
                     else:
                         pre = back.rstrip() #no linefeed so rstrip
-                        #if _debug: print "open pre rstrip back: \n%s" % pre
-                        
+                        #if _debug: print( "open pre rstrip back: \n%s" % pre)
+
             elif close_tag:
                 inline = True # section is inline
                 follow = False # followed by inline
-                post = '' 
-                
+                post = ''
+
                 if rest: # see if inline follows
                     front, sep, back = rest.partition("\n")
                     if front.strip(): # not empty before linefeed so inline follows
                         follow = True # inline follows
-                        #if _debug: print "close follow:"
-                        
+                        #if _debug: print( "close follow:")
+
                 if pre: #strip trailing whitespace after prev linefeed if present
                     front, sep, back = pre.rpartition("\n")
                     if sep and not back.strip(): # only whitespace after linefeed
                         inline = False
-                        #if _debug: print "close not inline:"                        
+                        #if _debug: print() "close not inline:" )
                         if follow:
                             post = back # save spacing for following inline
                         pre = ''.join((front, sep)) # restore upto linefeed
-                        #if _debug: print "close pre strip back: \n%s" % pre
-                                                       
+                        #if _debug: print( "close pre strip back: \n%s" % pre)
+
                 if not inline and rest: # strip trailing whitespace and linefeed if present
                     if follow: # restore saved spacing
                         rest = post + rest
-                        #print "close follow rest: \n%s" %  rest
+                        #print( "close follow rest: \n%s" %  rest)
                     front, sep, back = rest.partition("\n") # partition at linefeed
                     if sep:
                         if not front.strip(): # only whitespace before linefeed
                             rest = back # remove trailing whitespace and linefeed
-                            #if _debug: print "close rest strip front: \n%s" %  rest
-                        
+                            #if _debug: print( "close rest strip front: \n%s" %  rest)
+
             if push_tag:
                 pre = pre.rstrip()
                 rest = rest.lstrip()
-                #if _debug: print "push rest: \n%s" %  rest
-                
+                #if _debug: print( "push rest: \n%s" %  rest)
+
             if pre:
-                yield TOKEN_RAW, pre, len(scope)  
+                yield TOKEN_RAW, pre, len(scope)
 
             if open_tag:
                 scope.append(open_tag)
@@ -218,7 +220,7 @@ class Stache(object):
 
     def _parse(self, tokens, *data):
         for token in tokens:
-            if _debug: print 'token:' + str(token)
+            if _debug: print( 'token:' + str(token))
             tag, content, scope = token
             if tag == TOKEN_RAW:
                 yield str(content)
@@ -243,7 +245,7 @@ class Stache(object):
                 untilclose = itertools.takewhile(lambda x: x != (TOKEN_TAGCLOSE, content, scope), tokens)
                 if (tag == TOKEN_TAGOPEN and tagvalue) or (tag == TOKEN_TAGINVERT and not tagvalue):
                     if hasattr(tagvalue, 'items'):
-                        #if _debug: print '    its a dict!', tagvalue, untilclose
+                        #if _debug: print( '    its a dict!', tagvalue, untilclose)
                         for part in self._parse(untilclose, tagvalue, *data):
                             yield part
                     else:
@@ -251,17 +253,17 @@ class Stache(object):
                             iterlist = list(iter(tagvalue))
                             if len(iterlist) == 0:
                                 raise TypeError
-                            
+
                             #from http://docs.python.org/library/itertools.html#itertools.tee
                             #In general, if one iterator uses most or all of the data before
                             #another iterator starts, it is faster to use list() instead of tee().
                             rest = list(untilclose)
-                            #if _debug: print '    its a list!', list(rest)
+                            #if _debug: print( '    its a list!', list(rest))
                             for listitem in iterlist:
                                 for part in self._parse(iter(rest), listitem, *data):
                                     yield part
                         except TypeError:
-                            #if _debug: print '    its a bool!'
+                            #if _debug: print( '    its a bool!')
                             for part in self._parse(untilclose, *data):
                                 yield part
                 else:
@@ -289,56 +291,56 @@ class Stache(object):
 if __name__ == "__main__":
     """Process command line args """
     import argparse
-    
+
     try:
         import simplejson as json
     except ImportError:
         import json
-    
+
     d = "Renders template file given json data dict and store result in rendered file. "
     p = argparse.ArgumentParser(description = d)
     p.add_argument('-v','--verbose',
                      action = 'store_const',
                      const = True,
                      default = False,
-                     help = "Verbose debug mode.")    
+                     help = "Verbose debug mode.")
     p.add_argument('-t','--template',
                     action = 'store',
-                    nargs='?', 
+                    nargs='?',
                     const = 'template.html',
                     default = 'template.html',
                     help = "Template file.")
     p.add_argument('-d','--data',
                     action = 'store',
-                    nargs='?', 
+                    nargs='?',
                     const = 'data.json',
                     default = 'data.json',
                     help = "Data dict file in JSON.")
     p.add_argument('-r','--rendered',
                     action = 'store',
-                    nargs='?', 
+                    nargs='?',
                     const = 'rendered.html',
                     default = 'rendered.html',
-                    help = "Rendered file.")     
-        
+                    help = "Rendered file.")
+
     args = p.parse_args()
-    
+
     if args.verbose:
         _debug = True
-        
+
     with  open(args.template, 'r') as fpt, open(args.data, 'r') as  fpd, open(args.rendered, 'w') as fpr:
-        if _debug: print "Running staching"
-        
+        if _debug: print( "Running staching")
+
         template = fpt.read()
-        if _debug: print "Template: \n%s\n" % template
-        
+        if _debug: print( "Template: \n%s\n" % template)
+
         data = json.load(fpd)
-        if _debug: print "Data: \n%s\n" %  data
-        
-        if _debug: print "Rendering: ......"
-        
+        if _debug: print( "Data: \n%s\n" %  data)
+
+        if _debug: print( "Rendering: ......")
+
         rendered = render(template, data)
-        if _debug: print "Rendered: \n%s\n" % rendered
-        
+        if _debug: print( "Rendered: \n%s\n" % rendered)
+
         fpr.write(rendered)
-    
+
